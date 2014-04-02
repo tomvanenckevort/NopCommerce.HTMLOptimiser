@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "";
+}
+@model Nop.Plugin.Misc.HtmlOptimiser.Models.ConfigurationModel
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.Mvc;
+@using Telerik.Web.Mvc.UI;
+
+@using (Html.BeginForm())
+{
+    <table class="adminContent">
+        <tbody>
+            <tr>
+                <td colspan="2">
+                    <p>
+                        @T(Nop.Plugin.Misc.HtmlOptimiser.Code.Constants.ResourceIntroPart1)
+                        <ul>
+                            <li>
+                                @T(Nop.Plugin.Misc.HtmlOptimiser.Code.Constants.ResourceIntroPart2)        
+                            </li>
+                            <li>
+                                @T(Nop.Plugin.Misc.HtmlOptimiser.Code.Constants.ResourceIntroPart3)
+                            </li>
+                            <li>
+                                @T(Nop.Plugin.Misc.HtmlOptimiser.Code.Constants.ResourceIntroPart4)
+                            </li>
+                        </ul>
+                        @T(Nop.Plugin.Misc.HtmlOptimiser.Code.Constants.ResourceIntroPart5)
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.MinificationEnabled)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.MinificationEnabled)
+                    @Html.ValidationMessageFor(m => m.MinificationEnabled)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveHeaders)
+                </td>
+                <td class="adminData">
+                    @(Html.Telerik().Grid<Nop.Plugin.Misc.HtmlOptimiser.Models.RemoveHeaderModel>()
+                            .Name(Html.NameFor(m => m.RemoveHeaders).ToString())
+                            .DataKeys(k => k.Add(r => r.Index))
+                            .ToolBar(t => t.Insert())
+                            .DataBinding(d =>
+                                d.Ajax()
+                                    .Select("RemoveHeaders", "MiscHtmlOptimiser")
+                                    .Insert("InsertRemoveHeaders", "MiscHtmlOptimiser")
+                                    .Update("UpdateRemoveHeaders", "MiscHtmlOptimiser")
+                                    .Delete("DeleteRemoveHeaders", "MiscHtmlOptimiser")
+                            )
+                            .Columns(c =>
+                                {
+                                    c.Bound(r => r.Name)
+                                        .Title("Name");
+                                    c.Command(cmd =>
+                                        {
+                                            cmd.Edit();
+                                            cmd.Delete();
+                                        }
+                                    );
+                                }
+                            )
+                            .Editable(e => e.InsertRowPosition(GridInsertRowPosition.Bottom))
+                            .EnableCustomBinding(true)
+                    )                        
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.AddHeaders)
+                </td>
+                <td class="adminData">
+                    @(Html.Telerik().Grid<Nop.Plugin.Misc.HtmlOptimiser.Models.AddHeaderModel>()
+                            .Name(Html.NameFor(m => m.AddHeaders).ToString())
+                            .DataKeys(k => k.Add(r => r.Index))
+                            .ToolBar(t => t.Insert())
+                            .DataBinding(d =>
+                                d.Ajax()
+                                    .Select("AddHeaders", "MiscHtmlOptimiser")
+                                    .Insert("InsertAddHeaders", "MiscHtmlOptimiser")
+                                    .Update("UpdateAddHeaders", "MiscHtmlOptimiser")
+                                    .Delete("DeleteAddHeaders", "MiscHtmlOptimiser")
+                            )
+                            .Columns(c =>
+                                {
+                                    c.Bound(r => r.Name)
+                                        .Title("Name");
+                                    c.Bound(r => r.Value)
+                                        .Title("Value");
+                                    c.Command(cmd =>
+                                        {
+                                            cmd.Edit();
+                                            cmd.Delete();
+                                        }
+                                    );
+                                }
+                            )
+                            .Editable(e => e.InsertRowPosition(GridInsertRowPosition.Bottom))
+                            .EnableCustomBinding(true)
+                    )
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="save" class="t-button" value="@T("Admin.Common.Save")" />
+                </td>
+            </tr>
+
+    </table>
+}

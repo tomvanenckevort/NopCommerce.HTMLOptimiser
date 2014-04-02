@@ -1,0 +1,8 @@
+﻿Group: Misc
+FriendlyName: HTML Optimiser
+SystemName: Misc.HTMLOptimiser
+Version: 1.0
+SupportedVersions: 3.20
+Author: Tom van Enckevort
+DisplayOrder: 1
+FileName: Nop.Plugin.Misc.HtmlOptimiser.dll
