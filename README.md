@@ -9,4 +9,5 @@ All this is possible without having to configure or have access to IIS.
 
 ###Compatibility
 This plugin is compatible with nopCommerce v3.20.
+
 If you require a version of the plugin that is compatible with an older version of nopCommerce, feel free to get in touch.
