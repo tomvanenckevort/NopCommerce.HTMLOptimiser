@@ -1,10 +1,12 @@
 ﻿@{
     Layout = "";
+
+    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
 }
 @model Nop.Plugin.Misc.HtmlOptimiser.Models.ConfigurationModel
+@using Nop.Core.Infrastructure;
 @using Nop.Web.Framework;
 @using Nop.Web.Framework.Mvc;
-@using Telerik.Web.Mvc.UI;
 
 @using (Html.BeginForm())
 {
@@ -43,32 +45,88 @@
                     @Html.NopLabelFor(m => m.RemoveHeaders)
                 </td>
                 <td class="adminData">
-                    @(Html.Telerik().Grid<Nop.Plugin.Misc.HtmlOptimiser.Models.RemoveHeaderModel>()
-                            .Name(Html.NameFor(m => m.RemoveHeaders).ToString())
-                            .DataKeys(k => k.Add(r => r.Index))
-                            .ToolBar(t => t.Insert())
-                            .DataBinding(d =>
-                                d.Ajax()
-                                    .Select("RemoveHeaders", "MiscHtmlOptimiser")
-                                    .Insert("InsertRemoveHeaders", "MiscHtmlOptimiser")
-                                    .Update("UpdateRemoveHeaders", "MiscHtmlOptimiser")
-                                    .Delete("DeleteRemoveHeaders", "MiscHtmlOptimiser")
-                            )
-                            .Columns(c =>
-                                {
-                                    c.Bound(r => r.Name)
-                                        .Title("Name");
-                                    c.Command(cmd =>
-                                        {
-                                            cmd.Edit();
-                                            cmd.Delete();
+                    <div id="@Html.IdFor(m => m.RemoveHeaders)"></div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#@Html.IdFor(m => m.RemoveHeaders)").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("RemoveHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
+                                        },
+                                        create: {
+                                            url:"@Html.Raw(Url.Action("InsertRemoveHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
+                                        },
+                                        update: {
+                                            url:"@Html.Raw(Url.Action("UpdateRemoveHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("DeleteRemoveHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
                                         }
-                                    );
-                                }
-                            )
-                            .Editable(e => e.InsertRowPosition(GridInsertRowPosition.Bottom))
-                            .EnableCustomBinding(true)
-                    )                        
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                                id: "Index",
+                                                fields: {
+                                                    Name: { editable: true, type: "string" },                                                
+                                                    Index: { editable: false, type: "number" }
+                                                }
+                                        }
+                                    },
+                                    requestEnd: function (e) {
+                                        if (e.type == "create" || e.type == "update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function (e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(gridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true
+                                },
+                                editable: {
+                                    confirmation: false,
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                toolbar: ["create"],
+                                columns: [{
+                                        field: "Name",
+                                        title: "Name",
+                                        width: 300
+                                    }, {
+                                        command: [{
+                                            name: "edit",
+                                            text: "@T("Admin.Common.Edit")"
+                                        }, {
+                                            name: "destroy",
+                                            text: "@T("Admin.Common.Delete")"
+                                        }],
+                                        width: 200
+                                    }]
+                            }); 
+                        });
+                    </script>                        
                 </td>
             </tr>
             <tr>
@@ -76,34 +134,93 @@
                     @Html.NopLabelFor(m => m.AddHeaders)
                 </td>
                 <td class="adminData">
-                    @(Html.Telerik().Grid<Nop.Plugin.Misc.HtmlOptimiser.Models.AddHeaderModel>()
-                            .Name(Html.NameFor(m => m.AddHeaders).ToString())
-                            .DataKeys(k => k.Add(r => r.Index))
-                            .ToolBar(t => t.Insert())
-                            .DataBinding(d =>
-                                d.Ajax()
-                                    .Select("AddHeaders", "MiscHtmlOptimiser")
-                                    .Insert("InsertAddHeaders", "MiscHtmlOptimiser")
-                                    .Update("UpdateAddHeaders", "MiscHtmlOptimiser")
-                                    .Delete("DeleteAddHeaders", "MiscHtmlOptimiser")
-                            )
-                            .Columns(c =>
-                                {
-                                    c.Bound(r => r.Name)
-                                        .Title("Name");
-                                    c.Bound(r => r.Value)
-                                        .Title("Value");
-                                    c.Command(cmd =>
-                                        {
-                                            cmd.Edit();
-                                            cmd.Delete();
+                    <div id="@Html.IdFor(m => m.AddHeaders)"></div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#@Html.IdFor(m => m.AddHeaders)").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("AddHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
+                                        },
+                                        create: {
+                                            url:"@Html.Raw(Url.Action("InsertAddHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
+                                        },
+                                        update: {
+                                            url:"@Html.Raw(Url.Action("UpdateAddHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("DeleteAddHeaders", "MiscHtmlOptimiser", new RouteValueDictionary() { { "Namespaces", "Nop.Plugin.Misc.HtmlOptimiser.Controllers" }, { "area", "" } }))",
+                                            type: "POST",
+                                            dataType: "json"
                                         }
-                                    );
-                                }
-                            )
-                            .Editable(e => e.InsertRowPosition(GridInsertRowPosition.Bottom))
-                            .EnableCustomBinding(true)
-                    )
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                                id: "Index",
+                                                fields: {
+                                                    Name: { editable: true, type: "string" },
+                                                    Value: { editable: true, type: "string" },
+                                                    Index: { editable: false, type: "number" }
+                                                }
+                                        }
+                                    },
+                                    requestEnd: function (e) {
+                                        if (e.type == "create" || e.type == "update" || e.type == "destroy") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function (e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(gridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true
+                                },
+                                editable: {
+                                    confirmation: false,
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                toolbar: ["create"],
+                                columns: [{
+                                        field: "Name",
+                                        title: "Name",
+                                        width: 300
+                                    }, {
+                                        field: "Value",
+                                        title: "Value",
+                                        width: 300
+                                    }, {
+                                        command: [{
+                                            name: "edit",
+                                            text: "@T("Admin.Common.Edit")"
+                                        }, {
+                                            name: "destroy",
+                                            text: "@T("Admin.Common.Delete")"
+                                        }],
+                                        width: 200
+                                    }]
+                            });
+                        });
+                    </script>
                 </td>
             </tr>
             <tr>

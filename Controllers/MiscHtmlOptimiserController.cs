@@ -4,15 +4,16 @@ using Nop.Plugin.Misc.HtmlOptimiser.Models;
 using Nop.Services.Configuration;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Kendoui;
+using Nop.Web.Framework.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Telerik.Web.Mvc;
 
 namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 {
     [AdminAuthorize]
-    public class MiscHtmlOptimiserController : Controller
+    public class MiscHtmlOptimiserController : BaseController
     {
         private readonly ISettingService _settingService;
         private readonly IStoreService _storeService;
@@ -99,18 +100,18 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
         #region Remove Headers
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult RemoveHeaders(GridCommand command)
+        [HttpPost]
+        public ActionResult RemoveHeaders(DataSourceRequest command)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
             var removeHeaders = (settings.RemoveHeaders ?? Enumerable.Empty<string>())
-                                    .Select((h, i) => new RemoveHeaderModel { Index = i, Name = h })
+                                    .Select((h, i) => new RemoveHeaderModel { Index = (i + 1), Name = h })
                                     .ToList();
 
-            var model = new GridModel<RemoveHeaderModel>()
+            var model = new DataSourceResult()
             {
                 Data = removeHeaders,
                 Total = removeHeaders.Count
@@ -122,8 +123,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             };
         }
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult InsertRemoveHeaders(RemoveHeaderModel model, GridCommand command)
+        [HttpPost]
+        public ActionResult InsertRemoveHeaders(RemoveHeaderModel model)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
@@ -138,17 +139,17 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             SaveSettings(settings);
 
-            return RemoveHeaders(command);
+            return new NullJsonResult();
         }
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult UpdateRemoveHeaders(int id, RemoveHeaderModel model, GridCommand command)
+        [HttpPost]
+        public ActionResult UpdateRemoveHeaders(RemoveHeaderModel model)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
-            settings.RemoveHeaders[id] = model.Name;
+            settings.RemoveHeaders[model.Index - 1] = model.Name;
 
             _settingService.SaveSetting(settings, x => x.RemoveHeaders, storeScope, false);
             
@@ -158,17 +159,17 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             RestartPlugin();
 
-            return RemoveHeaders(command);
+            return new NullJsonResult();
         }
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult DeleteRemoveHeaders(int id, GridCommand command)
+        [HttpPost]
+        public ActionResult DeleteRemoveHeaders(int Index)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
-            settings.RemoveHeaders.RemoveAt(id);
+            settings.RemoveHeaders.RemoveAt(Index - 1);
 
             _settingService.SaveSetting(settings, x => x.RemoveHeaders, storeScope, false);
             
@@ -178,15 +179,15 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             RestartPlugin();
 
-            return RemoveHeaders(command);
+            return new NullJsonResult();
         }
 
         #endregion
 
         #region Add Headers
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult AddHeaders(GridCommand command)
+        [HttpPost]
+        public ActionResult AddHeaders(DataSourceRequest command)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
@@ -195,11 +196,11 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             var addHeaders = (settings.AddHeaders ?? new List<AddHeader>())
                                             .Select((h, i) =>
                                             {
-                                                return new AddHeaderModel { Index = i, Name = h.Name, Value = h.Value };
+                                                return new AddHeaderModel { Index = (i + 1), Name = h.Name, Value = h.Value };
                                             })
                                             .ToList();
 
-            var model = new GridModel<AddHeaderModel>()
+            var model = new DataSourceResult()
             {
                 Data = addHeaders,
                 Total = addHeaders.Count
@@ -211,8 +212,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             };
         }
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult InsertAddHeaders(AddHeaderModel model, GridCommand command)
+        [HttpPost]
+        public ActionResult InsertAddHeaders(AddHeaderModel model)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
@@ -227,18 +228,18 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             SaveSettings(settings);
 
-            return AddHeaders(command);
+            return new NullJsonResult();
         }
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult UpdateAddHeaders(int id, AddHeaderModel model, GridCommand command)
+        [HttpPost]
+        public ActionResult UpdateAddHeaders(AddHeaderModel model)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
-            settings.AddHeaders[id].Name = model.Name;
-            settings.AddHeaders[id].Value = model.Value;
+            settings.AddHeaders[model.Index - 1].Name = model.Name;
+            settings.AddHeaders[model.Index - 1].Value = model.Value;
 
             _settingService.SaveSetting(settings, x => x.AddHeaders, storeScope, false);
 
@@ -248,17 +249,17 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             RestartPlugin();
 
-            return AddHeaders(command);
+            return new NullJsonResult();
         }
 
-        [GridAction(EnableCustomBinding = true)]
-        public ActionResult DeleteAddHeaders(int id, GridCommand command)
+        [HttpPost]
+        public ActionResult DeleteAddHeaders(int Index)
         {
             var storeScope = this.GetActiveStoreScopeConfiguration(_storeService, _workContext);
 
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
-            settings.AddHeaders.RemoveAt(id);
+            settings.AddHeaders.RemoveAt(Index - 1);
 
             _settingService.SaveSetting(settings, x => x.AddHeaders, storeScope, false);
 
@@ -268,7 +269,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             RestartPlugin();
 
-            return AddHeaders(command);
+            return new NullJsonResult();
         }
 
         #endregion
