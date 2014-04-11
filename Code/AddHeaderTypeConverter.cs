@@ -18,7 +18,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
         {
             if (value is string)
             {
-                var result = Enumerable.Empty<AddHeader>();
+                var result = Enumerable.Empty<AddHeader>().ToList();
 
                 if (!string.IsNullOrEmpty((string)value))
                 {
