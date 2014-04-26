@@ -109,6 +109,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             var removeHeaders = (settings.RemoveHeaders ?? Enumerable.Empty<string>())
                                     .Select((h, i) => new RemoveHeaderModel { Index = (i + 1), Name = h })
+                                    .Skip((command.Page - 1) * command.PageSize)
+                                    .Take(command.PageSize)
                                     .ToList();
 
             var model = new DataSourceResult()
@@ -198,6 +200,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
                                             {
                                                 return new AddHeaderModel { Index = (i + 1), Name = h.Name, Value = h.Value };
                                             })
+                                            .Skip((command.Page - 1) * command.PageSize)
+                                            .Take(command.PageSize)
                                             .ToList();
 
             var model = new DataSourceResult()
