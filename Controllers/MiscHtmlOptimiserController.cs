@@ -108,15 +108,15 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
             var removeHeaders = (settings.RemoveHeaders ?? Enumerable.Empty<string>())
-                                    .Select((h, i) => new RemoveHeaderModel { Index = (i + 1), Name = h })
-                                    .Skip((command.Page - 1) * command.PageSize)
-                                    .Take(command.PageSize)
-                                    .ToList();
+                                    .Select((h, i) => new RemoveHeaderModel { Index = (i + 1), Name = h });
 
             var model = new DataSourceResult()
             {
-                Data = removeHeaders,
-                Total = removeHeaders.Count
+                Data = removeHeaders
+                            .Skip((command.Page - 1) * command.PageSize)
+                            .Take(command.PageSize)
+                            .ToList(),
+                Total = removeHeaders.Count()
             };
 
             return new JsonResult
@@ -196,18 +196,18 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
             var addHeaders = (settings.AddHeaders ?? new List<AddHeader>())
-                                            .Select((h, i) =>
-                                            {
-                                                return new AddHeaderModel { Index = (i + 1), Name = h.Name, Value = h.Value };
-                                            })
-                                            .Skip((command.Page - 1) * command.PageSize)
-                                            .Take(command.PageSize)
-                                            .ToList();
+                                    .Select((h, i) =>
+                                    {
+                                        return new AddHeaderModel { Index = (i + 1), Name = h.Name, Value = h.Value };
+                                    });
 
             var model = new DataSourceResult()
             {
-                Data = addHeaders,
-                Total = addHeaders.Count
+                Data = addHeaders
+                            .Skip((command.Page - 1) * command.PageSize)
+                            .Take(command.PageSize)
+                            .ToList(),
+                Total = addHeaders.Count()
             };
 
             return new JsonResult
