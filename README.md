@@ -9,7 +9,7 @@ The HTML Optimiser plugin allows you to do the following things:
 All this is possible without having to configure or have access to IIS.
 
 ###Compatibility
-This plugin is compatible with nopCommerce v3.30 (v1.1) and v3.20 (v1.0).
+This plugin is compatible with nopCommerce v3.40 (v1.2), v3.30 (v1.1) and v3.20 (v1.0).
 
 If you require a version of the plugin that is compatible with an older version of nopCommerce, feel free to get in touch.
 
