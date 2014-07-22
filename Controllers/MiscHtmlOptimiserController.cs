@@ -52,7 +52,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
 
             model.MinificationEnabled = settings.MinificationEnabled;
 
-            return View("Nop.Plugin.Misc.HtmlOptimiser.Views.MiscHtmlOptimiser.Configure", model);
+            return View("~/Plugins/Misc.HtmlOptimiser/Views/MiscHtmlOptimiser/Configure.cshtml", model);
         }
 
         [HttpPost]

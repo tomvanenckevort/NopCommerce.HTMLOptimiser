@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "";
 
-    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
 }
 @model Nop.Plugin.Misc.HtmlOptimiser.Models.ConfigurationModel
 @using Nop.Core.Infrastructure;
