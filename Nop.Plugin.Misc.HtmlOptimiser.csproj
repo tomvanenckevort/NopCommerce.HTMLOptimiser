@@ -82,6 +82,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebMarkupMin.Core">
+      <HintPath>..\..\packages\WebMarkupMin.Core.0.8.21\lib\net40\WebMarkupMin.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Constants.cs" />

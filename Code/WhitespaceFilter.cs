@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Nop.Core.Infrastructure;
+using Nop.Services.Logging;
 using System.IO;
+using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using WebMarkupMin.Core.Minifiers;
 
 namespace Nop.Plugin.Misc.HtmlOptimiser.Code
 {
     internal class WhitespaceFilter : Stream
     {
-        private static readonly Regex REPLACE_LINE_BREAKS = 
-            new Regex(@"(^\s+)|(\n)", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static HtmlMinifier htmlMinifier = new HtmlMinifier();
 
-        private static readonly Regex REPLACE_BETWEEN_TAGS =
-            new Regex(@">\s+<", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static MemoryStream cacheStream = new MemoryStream();
+
+        private readonly ILogger logger = EngineContext.Current.Resolve<ILogger>();
 
         private readonly Stream _stream;
 
@@ -37,11 +39,6 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
 
         public override long Position { get; set; }
 
-        public override void Flush()
-        {
-            _stream.Flush();
-        }
-
         public override int Read(byte[] buffer, int offset, int count)
         {
             return _stream.Read(buffer, offset, count);
@@ -57,25 +54,48 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
             _stream.SetLength(value);
         }
 
-        public override void Close()
-        {
-            _stream.Close();
-        }
-
         public override void Write(byte[] buffer, int offset, int count)
         {
-            byte[] data = new byte[count];
+            // write content in separate stream to cache until ready to flush
+            cacheStream.Write(buffer, 0, count);
+        }
 
-            Buffer.BlockCopy(buffer, offset, data, 0, count);
+        public override void Flush()
+        {
+            // get cache stream content and convert to string
+            var streamBuffer = cacheStream.ToArray();
 
-            string content = Encoding.Default.GetString(buffer);
+            string content = Encoding.Default.GetString(streamBuffer);
 
-            content = REPLACE_LINE_BREAKS.Replace(content, string.Empty);
-            content = REPLACE_BETWEEN_TAGS.Replace(content, "><");
+            // minify the content
+            var result = htmlMinifier.Minify(content);
 
+            if (result.Errors.Count == 0)
+            {
+                content = result.MinifiedContent;
+            }
+            else
+            {
+                // minification failed, log the errors
+                var errors = result.Errors.Select(e => string.Format("{0} - {1}", e.Message, e.SourceFragment));
+
+                logger.Error(string.Format("HTML minification failed. Error(s): {0}", string.Join("; ", errors)));
+            }
+
+            // write the minified content to the original response stream
             byte[] output = Encoding.Default.GetBytes(content);
 
             _stream.Write(output, 0, output.GetLength(0));
+
+            // clear cache stream
+            cacheStream.SetLength(0);
+
+            _stream.Flush();
+        }
+
+        public override void Close()
+        {
+            _stream.Close();
         }
 
         public WhitespaceFilter(Stream stream)
