@@ -66,7 +66,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
                         !filterContext.HttpContext.Response.IsRequestBeingRedirected &&
                         filterContext.Exception == null &&
                         !(filterContext.Result is FileResult) &&
-                        !(filterContext.Result is HttpUnauthorizedResult))
+                        !(filterContext.Result is HttpUnauthorizedResult) &&
+                        filterContext.HttpContext.Response.ContentType != "text/xml")
                     {
                         filterContext.HttpContext.Response.Filter =
                             new WhitespaceFilter(filterContext.HttpContext.Response.Filter);
