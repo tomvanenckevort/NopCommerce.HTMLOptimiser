@@ -11,7 +11,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
     {
         private static HtmlMinifier htmlMinifier = new HtmlMinifier();
 
-        private static MemoryStream cacheStream = new MemoryStream();
+        private MemoryStream cacheStream = new MemoryStream();
 
         private readonly ILogger logger = EngineContext.Current.Resolve<ILogger>();
 
