@@ -65,7 +65,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
             // get cache stream content and convert to string
             var streamBuffer = cacheStream.ToArray();
 
-            string content = Encoding.Default.GetString(streamBuffer);
+            string content = Encoding.UTF8.GetString(streamBuffer);
 
             // minify the content
             var result = htmlMinifier.Minify(content);
@@ -83,7 +83,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
             }
 
             // write the minified content to the original response stream
-            byte[] output = Encoding.Default.GetBytes(content);
+            byte[] output = Encoding.UTF8.GetBytes(content);
 
             _stream.Write(output, 0, output.GetLength(0));
 
