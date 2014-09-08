@@ -21,6 +21,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser
 
         public bool RemoveRedundantAttributes { get; set; }
 
+        public bool RemoveOptionalEndTags { get; set; }
+
         public bool MinifyInlineScripts { get; set; }
 
         public bool MinifyInlineStyles { get; set; }

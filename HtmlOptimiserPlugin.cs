@@ -31,6 +31,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser
                 RemoveCDATASections = true,
                 RemoveQuotes = true,
                 RemoveRedundantAttributes = true,
+                RemoveOptionalEndTags = true,
                 RemoveScriptComments = true,
                 MinifyInlineScripts = true,
                 MinifyInlineStyles = true,
@@ -58,6 +59,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser
             this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsRemoveQuotesHint, "Check to remove quotes from HTML attributes (only for values without spaces).");
             this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsRemoveRedundantAttributes, "Remove Redundant Attributes");
             this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsRemoveRedundantAttributesHint, "Check to remove redundant HTML attributes, like script language, form method, etc.");
+            this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsRemoveOptionalEndTags, "Remove Optional End Tags");
+            this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsRemoveOptionalEndTagsHint, "Check to remove the end tags of HTML elements that are optional, like head, body, tr, td, p, li, etc.");
             this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsMinifyInlineScripts, "Minify Inline Scripts");
             this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsMinifyInlineScriptsHint, "Check to minify all inline JavaScript code.");
             this.AddOrUpdatePluginLocaleResource(Constants.ResourceFieldsMinifyInlineStyles, "Minify Inline Styles");
@@ -101,6 +104,8 @@ namespace Nop.Plugin.Misc.HtmlOptimiser
             this.DeletePluginLocaleResource(Constants.ResourceFieldsRemoveQuotesHint);
             this.DeletePluginLocaleResource(Constants.ResourceFieldsRemoveRedundantAttributes);
             this.DeletePluginLocaleResource(Constants.ResourceFieldsRemoveRedundantAttributesHint);
+            this.DeletePluginLocaleResource(Constants.ResourceFieldsRemoveOptionalEndTags);
+            this.DeletePluginLocaleResource(Constants.ResourceFieldsRemoveOptionalEndTagsHint);
             this.DeletePluginLocaleResource(Constants.ResourceFieldsMinifyInlineScripts);
             this.DeletePluginLocaleResource(Constants.ResourceFieldsMinifyInlineScriptsHint);
             this.DeletePluginLocaleResource(Constants.ResourceFieldsMinifyInlineStyles);

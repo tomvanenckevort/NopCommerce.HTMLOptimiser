@@ -35,6 +35,10 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
 
         public const string ResourceFieldsRemoveRedundantAttributesHint = "Plugins.Misc.HtmlOptimiser.Fields.RemoveRedundantAttributes.Hint";
 
+        public const string ResourceFieldsRemoveOptionalEndTags = "Plugins.Misc.HtmlOptimiser.Fields.RemoveOptionalEndTags";
+
+        public const string ResourceFieldsRemoveOptionalEndTagsHint = "Plugins.Misc.HtmlOptimiser.Fields.RemoveOptionalEndTags.Hint";
+
         public const string ResourceFieldsMinifyInlineScripts = "Plugins.Misc.HtmlOptimiser.Fields.MinifyInlineScripts";
 
         public const string ResourceFieldsMinifyInlineScriptsHint = "Plugins.Misc.HtmlOptimiser.Fields.MinifyInlineScripts.Hint";

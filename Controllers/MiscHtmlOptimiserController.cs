@@ -57,6 +57,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             model.RemoveHtmlComments = settings.RemoveHtmlComments;
             model.RemoveQuotes = settings.RemoveQuotes;
             model.RemoveRedundantAttributes = settings.RemoveRedundantAttributes;
+            model.RemoveOptionalEndTags = settings.RemoveOptionalEndTags;
             model.RemoveScriptComments = settings.RemoveScriptComments;
             model.RemoveCDATASections = settings.RemoveCDATASections;
             model.UseShortDocType = settings.UseShortDocType;
@@ -83,6 +84,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             settings.RemoveHtmlComments = model.RemoveHtmlComments;
             settings.RemoveQuotes = model.RemoveQuotes;
             settings.RemoveRedundantAttributes = model.RemoveRedundantAttributes;
+            settings.RemoveOptionalEndTags = model.RemoveOptionalEndTags;
             settings.RemoveScriptComments = model.RemoveScriptComments;
             settings.RemoveWhitespace = model.RemoveWhitespace;
             settings.UseShortDocType = model.UseShortDocType;
@@ -94,6 +96,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             _settingService.SaveSetting(settings, x => x.RemoveHtmlComments, storeScope, false);
             _settingService.SaveSetting(settings, x => x.RemoveQuotes, storeScope, false);
             _settingService.SaveSetting(settings, x => x.RemoveRedundantAttributes, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveOptionalEndTags, storeScope, false);
             _settingService.SaveSetting(settings, x => x.RemoveScriptComments, storeScope, false);
             _settingService.SaveSetting(settings, x => x.RemoveWhitespace, storeScope, false);
             _settingService.SaveSetting(settings, x => x.UseShortDocType, storeScope, false);

@@ -30,6 +30,9 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Models
         [NopResourceDisplayName(Constants.ResourceFieldsRemoveRedundantAttributes)]
         public bool RemoveRedundantAttributes { get; set; }
 
+        [NopResourceDisplayName(Constants.ResourceFieldsRemoveOptionalEndTags)]
+        public bool RemoveOptionalEndTags { get; set; }
+
         [NopResourceDisplayName(Constants.ResourceFieldsMinifyInlineScripts)]
         public bool MinifyInlineScripts { get; set; }
 

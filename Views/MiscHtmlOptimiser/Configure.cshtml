@@ -121,6 +121,15 @@
             </tr>
             <tr>
                 <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveOptionalEndTags)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveOptionalEndTags)
+                    @Html.ValidationMessageFor(m => m.RemoveOptionalEndTags)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
                     @Html.NopLabelFor(m => m.UseShortDocType)
                 </td>
                 <td class="adminData">

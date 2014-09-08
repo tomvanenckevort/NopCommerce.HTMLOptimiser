@@ -116,6 +116,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
                     RemoveHtmlComments = settings.RemoveHtmlComments,
                     RemoveHtmlCommentsFromScriptsAndStyles = settings.RemoveScriptComments,
                     RemoveRedundantAttributes = settings.RemoveRedundantAttributes,
+                    RemoveOptionalEndTags = settings.RemoveOptionalEndTags,
                     AttributeQuotesRemovalMode = (settings.RemoveQuotes ? HtmlAttributeQuotesRemovalMode.Html5 : HtmlAttributeQuotesRemovalMode.KeepQuotes),
                     UseShortDoctype = settings.UseShortDocType,
                     WhitespaceMinificationMode = (settings.RemoveWhitespace ? WhitespaceMinificationMode.Medium : WhitespaceMinificationMode.None)
