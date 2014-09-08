@@ -41,6 +41,94 @@
                 </td>
             </tr>
             <tr>
+                <td colspan="2">
+                    <p>
+                        @T(Nop.Plugin.Misc.HtmlOptimiser.Code.Constants.ResourceIntroPart6)
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.MinifyInlineScripts)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.MinifyInlineScripts)
+                    @Html.ValidationMessageFor(m => m.MinifyInlineScripts)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.MinifyInlineStyles)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.MinifyInlineStyles)
+                    @Html.ValidationMessageFor(m => m.MinifyInlineStyles)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveWhitespace)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveWhitespace)
+                    @Html.ValidationMessageFor(m => m.RemoveWhitespace)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveHtmlComments)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveHtmlComments)
+                    @Html.ValidationMessageFor(m => m.RemoveHtmlComments)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveScriptComments)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveScriptComments)
+                    @Html.ValidationMessageFor(m => m.RemoveScriptComments)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveCDATASections)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveCDATASections)
+                    @Html.ValidationMessageFor(m => m.RemoveCDATASections)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveQuotes)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveQuotes)
+                    @Html.ValidationMessageFor(m => m.RemoveQuotes)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.RemoveRedundantAttributes)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.RemoveRedundantAttributes)
+                    @Html.ValidationMessageFor(m => m.RemoveRedundantAttributes)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    @Html.NopLabelFor(m => m.UseShortDocType)
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(m => m.UseShortDocType)
+                    @Html.ValidationMessageFor(m => m.UseShortDocType)
+                </td>
+            </tr>
+            <tr>
                 <td class="adminTitle">
                     @Html.NopLabelFor(m => m.RemoveHeaders)
                 </td>

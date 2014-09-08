@@ -3,13 +3,15 @@ using Nop.Services.Logging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using WebMarkupMin.Core;
 using WebMarkupMin.Core.Minifiers;
+using WebMarkupMin.Core.Settings;
 
 namespace Nop.Plugin.Misc.HtmlOptimiser.Code
 {
     internal class WhitespaceFilter : Stream
     {
-        private static HtmlMinifier htmlMinifier = new HtmlMinifier();
+        private static HtmlMinifier htmlMinifier;
 
         private MemoryStream cacheStream = new MemoryStream();
 
@@ -98,9 +100,27 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
             _stream.Close();
         }
 
-        public WhitespaceFilter(Stream stream)
+        public WhitespaceFilter(Stream stream, HtmlOptimiserSettings settings)
         {
             _stream = stream;
+
+            // intialize the HTML minifier with the chosen settings
+            htmlMinifier = new HtmlMinifier(
+                settings: new HtmlMinificationSettings()
+                {
+                    MinifyEmbeddedJsCode = settings.MinifyInlineScripts,
+                    MinifyInlineJsCode = settings.MinifyInlineScripts,
+                    MinifyEmbeddedCssCode = settings.MinifyInlineStyles,
+                    MinifyInlineCssCode = settings.MinifyInlineStyles,
+                    RemoveCdataSectionsFromScriptsAndStyles = settings.RemoveCDATASections,
+                    RemoveHtmlComments = settings.RemoveHtmlComments,
+                    RemoveHtmlCommentsFromScriptsAndStyles = settings.RemoveScriptComments,
+                    RemoveRedundantAttributes = settings.RemoveRedundantAttributes,
+                    AttributeQuotesRemovalMode = (settings.RemoveQuotes ? HtmlAttributeQuotesRemovalMode.Html5 : HtmlAttributeQuotesRemovalMode.KeepQuotes),
+                    UseShortDoctype = settings.UseShortDocType,
+                    WhitespaceMinificationMode = (settings.RemoveWhitespace ? WhitespaceMinificationMode.Medium : WhitespaceMinificationMode.None)
+                }
+            );
         }
     }
 }

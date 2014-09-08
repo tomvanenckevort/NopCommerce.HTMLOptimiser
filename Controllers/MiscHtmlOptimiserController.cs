@@ -51,6 +51,15 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
             model.MinificationEnabled = settings.MinificationEnabled;
+            model.MinifyInlineScripts = settings.MinifyInlineScripts;
+            model.MinifyInlineStyles = settings.MinifyInlineStyles;
+            model.RemoveWhitespace = settings.RemoveWhitespace;
+            model.RemoveHtmlComments = settings.RemoveHtmlComments;
+            model.RemoveQuotes = settings.RemoveQuotes;
+            model.RemoveRedundantAttributes = settings.RemoveRedundantAttributes;
+            model.RemoveScriptComments = settings.RemoveScriptComments;
+            model.RemoveCDATASections = settings.RemoveCDATASections;
+            model.UseShortDocType = settings.UseShortDocType;
 
             return View("~/Plugins/Misc.HtmlOptimiser/Views/MiscHtmlOptimiser/Configure.cshtml", model);
         }
@@ -68,8 +77,26 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Controllers
             var settings = _settingService.LoadSetting<HtmlOptimiserSettings>(storeScope);
 
             settings.MinificationEnabled = model.MinificationEnabled;
+            settings.MinifyInlineScripts = model.MinifyInlineScripts;
+            settings.MinifyInlineStyles = model.MinifyInlineStyles;
+            settings.RemoveCDATASections = model.RemoveCDATASections;
+            settings.RemoveHtmlComments = model.RemoveHtmlComments;
+            settings.RemoveQuotes = model.RemoveQuotes;
+            settings.RemoveRedundantAttributes = model.RemoveRedundantAttributes;
+            settings.RemoveScriptComments = model.RemoveScriptComments;
+            settings.RemoveWhitespace = model.RemoveWhitespace;
+            settings.UseShortDocType = model.UseShortDocType;
 
             _settingService.SaveSetting(settings, x => x.MinificationEnabled, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.MinifyInlineScripts, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.MinifyInlineStyles, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveCDATASections, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveHtmlComments, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveQuotes, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveRedundantAttributes, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveScriptComments, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.RemoveWhitespace, storeScope, false);
+            _settingService.SaveSetting(settings, x => x.UseShortDocType, storeScope, false);
             
             _settingService.ClearCache();
 

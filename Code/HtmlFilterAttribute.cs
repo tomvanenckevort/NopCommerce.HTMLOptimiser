@@ -71,7 +71,7 @@ namespace Nop.Plugin.Misc.HtmlOptimiser.Code
                         !filterContext.HttpContext.Response.ContentType.StartsWith("text/plain"))
                     {
                         filterContext.HttpContext.Response.Filter =
-                            new WhitespaceFilter(filterContext.HttpContext.Response.Filter);
+                            new WhitespaceFilter(filterContext.HttpContext.Response.Filter, settings);
 
                         try
                         {
